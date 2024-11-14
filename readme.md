@@ -94,7 +94,98 @@ Next.js memiliki dua pendekatan utama dalam mengelola routing aplikasi: **App Ro
 
 # Pembuatan Routes dalam App Router
 
-Isi di sini.
+Next.js versi 13 memperkenalkan **App Router** baru yang dibangun di atas *React Server Components*, yang mendukung fitur seperti shared layouts, nested routing (routing bertingkat), loading states, error handling, dan lainnya.
+
+App Router bekerja di dalam direktori baru bernama `app`. Direktori `app` ini dapat bekerja berdampingan dengan direktori `pages`, sehingga memungkinkan adopsi bertahap. Dengan demikian, Anda dapat mengaktifkan beberapa rute aplikasi menggunakan perilaku baru, sambil mempertahankan rute lainnya di direktori `pages` dengan perilaku lama. Jika aplikasi Anda menggunakan direktori `pages`.
+
+> **Penting**: App Router memiliki prioritas lebih tinggi daripada Pages Router. Rute pada direktori yang berbeda seharusnya tidak mengarah ke jalur URL yang sama, karena ini akan menyebabkan error saat proses build untuk mencegah konflik.
+
+Secara default, *React Server Components* adalah komponen dalam `app`. Hal ini dirancang untuk meningkatkan kinerja dan memudahkan penggunaan. Selain itu, Anda juga dapat menggunakan *Client Components*.
+
+## Pembuatan Routes
+
+App Router di Next.js memungkinkan pembuatan rute dalam aplikasi dengan mudah melalui struktur direktori `app/`. Sistem ini memanfaatkan struktur file secara otomatis, sehingga konfigurasi rute manual tidak diperlukan. Setiap folder dan file dalam `app/` secara langsung diubah menjadi rute, dengan nama file sebagai nama rute dan komponen yang diekspor sebagai halaman yang ditampilkan.
+
+### Struktur Dasar
+
+Pada App Router, kita menggunakan folder `app/` untuk menentukan rute aplikasi. Struktur file dan foldernya dapat berupa seperti ini:
+
+```plaintext
+app/
+ ├── page.tsx           // Rute utama "/"
+ ├── about/
+ │   └── page.tsx       // Rute "/about"
+ └── blog/
+     ├── page.tsx       // Rute "/blog"
+     └── [slug]/
+         └── page.tsx   // Rute dinamis "/blog/[slug]"
+```
+
+Setiap folder dan file `page.tsx` dalam folder `app/` langsung menjadi rute berdasarkan struktur folder tersebut. Menggunakan nama folder dengan format `[parameter]` memungkinkan kita membuat rute dinamis untuk menerima parameter URL.
+
+### Implementasi
+
+Untuk membuat rute sederhana dalam App Router, ikuti langkah-langkah berikut:
+
+1. Buat rute utama dengan membuat file `page.tsx` dalam folder `app/`.
+
+    ```javascript
+    // app/page.tsx
+    const HomePage = () => {
+        return <div>Welcome to the Homepage!</div>;
+    };
+
+    export default HomePage;
+    ```
+
+2. Tambahkan rute lain, seperti rute `/about`, dengan menambahkan sub-folder `about` dan file `page.tsx`.
+
+    ```javascript
+    // app/about/page.tsx
+    const AboutPage = () => {
+        return <div>About Us</div>;
+    };
+
+    export default AboutPage;
+    ```
+
+3. Tambahkan rute dinamis, misalnya `/blog/[slug]`, dengan membuat folder `[slug]` di dalam `app/blog`.
+
+    ```javascript
+    // app/blog/[slug]/page.tsx
+    const BlogPost = ({ params }) => {
+        return <div>Blog Post: {params.slug}</div>;
+    };
+
+    export default BlogPost;
+    ```
+
+4. Jalankan server lokal dengan perintah berikut:
+
+    ```bash
+    npm run dev
+    ```
+
+Sekarang, Anda dapat menavigasi ke URL yang sesuai (misalnya, `/about` atau `/blog/my-first-post`) dan melihat halaman yang telah dibuat.
+
+## Fitur pada App Router
+
+- **Route Otomatis**: Membuat file `page.tsx` atau `page.jsx` di dalam direktori `app/` otomatis menghasilkan rute yang sesuai.
+- **Komponen Layout yang Konsisten**: Setiap folder dapat memiliki file `layout.tsx` untuk membuat layout yang konsisten di seluruh rute dalam folder tersebut.
+- **Data Fetching Lebih Fleksibel**: Pengambilan data (data fetching) dapat dilakukan langsung dalam komponen.
+
+## Kelebihan
+
+- **Efisiensi**: Membuat rute lebih mudah dan cepat tanpa konfigurasi manual.
+- **Dukungan Server-Side Components**: Secara default, setiap komponen di dalam App Router adalah Server Component.
+- **Struktur Layout yang Lebih Kompleks**: File `layout.tsx` memungkinkan pengaturan layout global di seluruh aplikasi.
+
+## Kekurangan
+
+- **Rute yang Kompleks**: Untuk aplikasi dengan banyak rute dinamis dan bertingkat, struktur file dapat menjadi kompleks.
+- **Keterbatasan Client-Side Components**: Hanya komponen yang secara eksplisit diatur sebagai client yang dapat menggunakan interaktivitas dan event listeners, sementara komponen lainnya default-nya adalah server-side.
+
+Dengan App Router, Next.js menyediakan sistem routing yang fleksibel dan efisien, menjadikannya cocok untuk berbagai jenis aplikasi dari yang sederhana hingga yang kompleks.
 
 # Layout
 
