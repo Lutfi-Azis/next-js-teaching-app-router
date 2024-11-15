@@ -189,4 +189,129 @@ Dengan App Router, Next.js menyediakan sistem routing yang fleksibel dan efisien
 
 # Layout
 
-Isi di sini.
+Di Next.js, layouts menyediakan cara untuk menggunakan kembali komponen UI di berbagai halaman. Layouts memungkinkan tata letak bersama untuk konten, sehingga desain yang konsisten dapat dengan mudah dipertahankan dalam aplikasi besar.
+
+## 1. Menyiapkan Layout Dasar
+
+Dalam direktori `app`, Anda dapat membuat layout default untuk aplikasi Anda. Struktur folder bisa terlihat seperti berikut:
+
+
+### Membuat Root Layout
+
+Di dalam `layout.js`, buat layout dasar untuk aplikasi Anda. Misalnya:
+
+```javascript
+// app/layout.js
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <header>
+          <h1>My Next.js App</h1>
+        </header>
+        <main>{children}</main>
+        <footer>© 2024 My Next.js App</footer>
+      </body>
+    </html>
+  );
+}
+```
+
+## 2. Menambahkan Layout Khusus untuk Halaman Tertentu
+
+Anda juga bisa membuat layout khusus untuk halaman tertentu. Misalnya, untuk halaman `about`, buat folder `about` dan file `layout.js` di dalamnya:
+
+```lua
+app/
+|-- layout.js       // Layout utama aplikasi
+|-- page.js         // Halaman utama aplikasi
+|-- about/
+|   |-- layout.js   // Layout khusus halaman 'about'
+|   |-- page.js     // Halaman 'about'
+```
+
+### Layout Khusus di Halaman `about`
+
+Di dalam `app/about/layout.js`, buat layout khusus yang hanya diterapkan pada halaman `about`:
+
+```javascript
+// app/about/layout.js
+export default function AboutLayout({ children }) {
+  return (
+    <div>
+      <nav>About Navigation</nav>
+      <section>{children}</section>
+    </div>
+  );
+}
+```
+Penjelasan kode di atas:
+
+`AboutLayout` membungkus konten halaman `about` dengan navigasi `nav` dan `section` khusus.
+
+## 3. Menggunakan Templates
+
+Templates di Next.js membantu Anda membuat pola layout yang dapat digunakan kembali di beberapa halaman. Misalnya, untuk blog dengan banyak artikel, Anda bisa menggunakan template untuk mengatur tampilan yang sama di setiap halaman artikel.
+
+Contoh struktur direktori untuk blog:
+
+```arduino
+app/
+|-- blog/
+|   |-- template.js  // Template untuk halaman blog
+|   |-- page.js      // Halaman utama blog
+```
+
+### Template di Halaman Blog
+Di dalam `app/blog/template.js`, buat template yang digunakan untuk semua halaman dalam direktori `blog`:
+
+```javascript
+// app/blog/template.js
+export default function BlogTemplate({ children }) {
+  return (
+    <div>
+      <aside>Blog Sidebar</aside>
+      <main>{children}</main>
+    </div>
+  );
+}
+```
+
+Penjelasan kode di atas:
+
+Template `BlogTemplate` menambahkan `aside` untuk sidebar blog dan `main` untuk konten utama.
+
+## 4. Menangani Dynamic Routes dengan Layouts
+
+Next.js mendukung **dynamic routes** di dalam layout. Misalnya, jika Anda memiliki halaman produk dinamis (`product/[id]`), Anda bisa membuat layout dan template yang diterapkan pada halaman ini.
+
+```lua
+app/
+|-- product/
+|   |-- [id]/
+|       |-- layout.js   // Layout khusus untuk setiap halaman produk
+|       |-- page.js     // Halaman produk dinamis
+```
+
+Layout untuk Halaman Produk Dinamis
+Dalam `product/[id]/layout.js`, Anda bisa mendefinisikan layout khusus untuk setiap halaman produk berdasarkan ID-nya:
+
+```javascript
+// app/product/[id]/layout.js
+export default function ProductLayout({ children }) {
+  return (
+    <div>
+      <header>Product Header</header>
+      <section>{children}</section>
+      <footer>Product Footer</footer>
+    </div>
+  );
+}
+```
+Penjelasan kode di atas:
+
+Layout `ProductLayout` diterapkan ke setiap halaman produk dan memiliki `header` dan `footer` khusus untuk halaman produk.
+
+## 5. Kesimpulan
+
+Dengan menggunakan layouts dan templates di Next.js, Anda bisa mengatur struktur halaman dengan lebih mudah dan konsisten di seluruh aplikasi. Next.js memberikan fleksibilitas untuk membuat layout spesifik per halaman, root layout, dan template yang dapat digunakan kembali pada halaman tertentu. Hal ini sangat bermanfaat untuk mengembangkan aplikasi yang kompleks namun tetap mudah diatur dan dipelihara.
